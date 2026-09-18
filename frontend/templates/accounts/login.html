@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login - Room Finder{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+
+    <!-- LEFT VISUAL -->
+    <div class="auth-visual">
+        <div class="auth-visual-content">
+            <div class="auth-visual-icon"><i class="fa-solid fa-house-laptop"></i></div>
+            <h1>Welcome Back to RoomFinder</h1>
+            <p>Login to manage your bookings, saved rooms, and connect with property owners instantly.</p>
+            <div class="auth-feature-list">
+                <div class="auth-feature-item">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>Search thousands of verified rooms</span>
+                </div>
+                <div class="auth-feature-item">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>Chat directly with property owners</span>
+                </div>
+                <div class="auth-feature-item">
+                    <i class="fa-solid fa-shield-heart"></i>
+                    <span>Safe, secure & verified listings</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT FORM -->
+    <div class="auth-form-side">
+        <div class="auth-form-wrapper">
+
+            <div class="auth-mobile-logo">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>RoomFinder</span>
+            </div>
+
+            <div class="auth-form-header">
+                <h2>Login to Your Account</h2>
+                <p>Enter your credentials to continue</p>
+            </div>
+
+            {% if messages %}
+            {% for m in messages %}
+            <div class="alert alert-{{ m.tags }}"><i class="fa-solid fa-circle-info"></i> {{ m }}</div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="POST" id="loginForm" novalidate>
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="id_username">Username
