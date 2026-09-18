@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ property.title }} - RoomFinder{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/details.css' %}">
+{% if property.latitude and property.longitude %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="property-details">
+    <div class="gallery">
+        {% for img in property.images.all %}
+            <img src="{{ img.image.url }}" alt="{{ property.title }}" class="{% if forloop.first %}active{% endif %}">
+        {% empty %}
+            <img src="{% static 'images/placeholder-room.jpg' %}" alt="No image available">
+        {% endfor %}
+    </div>
+
+    <div class="details-main">
+        <h1>{{ property.title }}</h1>
+        <p class="location">&#128205; {{ property.area }}, {{ property.get_city_display }}</p>
+        <p class="price">
+            Rs. {{ property.monthly_rent }} / month
+            <span class="status {% if property.is_available %}available{% else %}unavailable{% endif %}">
+                {% if property.is_available %}Available{% else %}Not Available{% endif %}
+            </span>
+        </p>
+
+        <div class="quick-info">
+            <span>{{ property.bedrooms }} Room</span>
+            <span>{{ property.bathrooms }} Bathroom</span>
+            {% if property.has_wifi %}<span>WiFi</span>{% endif %}
+            {% if property.has_parking %}<span>Parking</span>{% endif %}
+            {% if property.is_furnished %}<span>Furnished</span>{% endif %}
+        </div>
+
+        <h3>Description</h3>
+        <p>{{ property.description|default:"No description provided." }}</p>
+
+        <h3>Facilities</h3>
+        <ul class="facilities-list">
+            {% if property.has_wifi %}<li>WiFi</li>{% endif %}
+            {% if property.has_parking %}<li>Parking</li>{% endif %}
+            {% if property.has_attached_bathroom %}<li>Attached Bathroom</li>{% endif %}
+            {% if property.has_kitchen %}<li>Kitchen</li>{% endif %}
+            {% if property.is_furnished %}<li>Furnished</li>{% endif %}
+        </ul>
+
+        <h3>Location</h3>
+        {% if property.latitude and property.longitude %}
+            <div id="detail-map" data-lat="{{ property.latitude }}" data-lng="{{ property.longitude }}"></div>
+        {% else %}
+            <p>Location coordinates not set for this property.</p>
+        {% endif %}
+
+        <div class="owner-box">
+            <p><strong>Owner:</strong> {{ property.owner.get_full_name|default:property.owner.username }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% if property.latitude and property.longitude %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{% static 'js/map.js' %}"></script>
+{% endif %}
+{% endblock %}
