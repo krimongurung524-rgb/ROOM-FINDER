@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Rooms - RoomFinder{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="search-page">
+    <aside class="filters-sidebar">
+        {% include 'components/filters.html' with form=form %}
+    </aside>
+
+    <main class="results">
+        <div class="results-header">
+            <h2>{{ total }} rooms found</h2>
+            {% include 'components/search_bar.html' with form=form %}
+        </div>
+
+        <div id="room-results" class="room-grid">
+            {% for property in page_obj %}
+                {% include 'components/room_card.html' with property=property %}
+            {% empty %}
+                <p>No rooms match your filters.</p>
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">&laquo; Prev</a>
+            {% endif %}
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/search.js' %}"></script>
+{% endblock %}

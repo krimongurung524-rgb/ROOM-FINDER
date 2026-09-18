@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Map View - RoomFinder{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="{% static 'css/map.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="map-page">
+    <div class="map-search-bar">
+        <input type="text" id="map-search-input" placeholder="Search location...">
+        <a href="{% url 'properties:search' %}" class="btn-list-view">List View</a>
+    </div>
+    <div id="properties-map" data-properties-url="{% url 'properties:map_data' %}"></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{% static 'js/map.js' %}"></script>
+{% endblock %}

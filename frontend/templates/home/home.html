@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RoomFinder - Find Your Perfect Room{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-overlay">
+        <h1>Find Your Perfect Room<br>Near Your Area</h1>
+        <p>Discover comfortable rooms, flats and houses for rent in your preferred location. Easy, fast and reliable.</p>
+
+        <form action="{% url 'properties:search' %}" method="get" class="hero-search">
+            <input type="text" name="q" placeholder="Enter city or area">
+            <select name="room_type">
+                <option value="">Room Type</option>
+                <option value="single">Single Room</option>
+                <option value="shared">Shared Room</option>
+                <option value="1bhk">1BHK</option>
+                <option value="2bhk">2BHK</option>
+                <option value="flat">Flat</option>
+                <option value="house">House</option>
+            </select>
+            <select name="max_price">
+                <option value="">Monthly Rent</option>
+                <option value="5000">Under Rs. 5,000</option>
+                <option value="10000">Under Rs. 10,000</option>
+                <option value="20000">Under Rs. 20,000</option>
+                <option value="30000">Under Rs. 30,000</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</section>
+
+<section class="popular-areas">
+    <h3>Popular Areas</h3>
+    <div class="area-tags">
+        <a href="{% url 'properties:search' %}?city=dharan" class="area-tag">Dharan</a>
+        <a href="{% url 'properties:search' %}?city=kathmandu" class="area-tag">Kathmandu</a>
+        <a href="{% url 'properties:search' %}?city=itahari" class="area-tag">Itahari</a>
+        <a href="{% url 'properties:search' %}?city=pokhara" class="area-tag">Pokhara</a>
+        <a href="{% url 'properties:search' %}?city=biratnagar" class="area-tag">Biratnagar</a>
+        <a href="{% url 'properties:search' %}?city=birtamod" class="area-tag">Birtamod</a>
+    </div>
+</section>
+
+<section class="popular-rooms">
+    <div class="section-header">
+        <h3>Popular Rooms</h3>
+        <a href="{% url 'properties:search' %}" class="view-all">View all</a>
+    </div>
+    <div class="room-grid">
+        {% for property in featured_properties %}
+            {% include 'components/room_card.html' with property=property %}
+        {% empty %}
+            <p>No properties listed yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

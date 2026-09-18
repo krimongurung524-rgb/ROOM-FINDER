@@ -1,0 +1,5 @@
+{% for property in page_obj %}
+    {% include 'components/room_card.html' with property=property %}
+{% empty %}
+    <p>No rooms match your filters.</p>
+{% endfor %}
