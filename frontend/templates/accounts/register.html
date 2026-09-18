@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register - Room Finder{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+
+    <div class="auth-visual">
+        <div class="auth-visual-content">
+            <div class="auth-visual-icon"><i class="fa-solid fa-key"></i></div>
+            <h1>Join RoomFinder Today</h1>
+            <p>Create your free account and start your journey — whether you're looking for a room or listing your
+                property.</p>
+            <div class="auth-feature-list">
+                <div class="auth-feature-item">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Quick & easy signup process</span>
+                </div>
+                <div class="auth-feature-item">
+                    <i class="fa-solid fa-building-user"></i>
+                    <span>List properties as an owner</span>
+                </div>
+                <div class="auth-feature-item">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Save favorites & get instant alerts</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-form-side">
+        <div class="auth-form-wrapper">
+
+            <div class="auth-mobile-logo">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>RoomFinder</span>
+            </div>
+
+            <div class="auth-form-header">
+                <h2>Create Your Account</h2>
+                <p>Fill in your details to get started</p>
+            </div>
+
+            {% if messages %}
+            {% for m in messages %}
+            <div class="alert alert-{{ m.tags }}"><i class="fa-solid fa-circle-info"></i> {{ m }}</div>
+            {% endfor %}
+            {% endif %}
+
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field in form %}
+                {% for error in field.errors %}
+                <p><strong>{{ field.label }}:</strong> {{ error }}</p>
+                {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form method="POST" id="registerForm" novalidate>
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>I want to join as:</label>
+                    <div class="user-type-select" id="userTypeSelect">
+                        <label class="radio-card selected" data-value="tenant">
+                            <input type="radio" name="user_type" value="tenant" checked>
+                            <i class="fa-solid fa-user"></i>
+                            <span>Tenant</span>
+                        </label>
+                        <label class="radio-card" data-value="owner">
+                            <input type="radio" name="user_type" value="owner">
+                            <i class="fa-solid fa-building"></i>
+                            <span>Property Owner</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_first_name">First Name</label>
+                        {{ form.first_name }}
+                        <span class="error-text" id="error_first_name"><i class="fa-solid fa-circle-exclamation"></i>
+                            <span></span></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_last_name">Last Name</label>
+                        {{ form.last_name }}
+                        <span class="error-text" id="error_last_name"><i class="fa-solid fa-circle-exclamation"></i>
+                            <span></span></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_username">Username</label>
+                    {{ form.username }}
+                    <span class="error-text" id="error_username"><i class="fa-solid fa-circle-exclamation"></i>
+                        <span></span></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_email">Email Address</label>
+                    {{ form.email }}
+                    <span class="error-text" id="error_email"><i class="fa-solid fa-circle-exclamation"></i>
+                        <span></span></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_phone_number">Phone Number</label>
+                    {{ form.phone_number }}
+                    <span class="error-text" id="error_phone_number"><i class="fa-solid fa-circle-exclamation"></i>
+                        <span></span></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password1">Password</label>
+                    <div class="password-wrapper">
+                        {{ form.password1 }}
+                        <i class="fa-solid fa-eye toggle-password" data-target="id_password1"></i>
+                    </div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="strength-bar"></div>
+                        <div class="strength-bar"></div>
+                        <div class="strength-bar"></div>
+                        <div class="strength-bar"></div>
+                    </div>
+                    <span class="error-text" id="error_password1"><i class="fa-solid fa-circle-exclamation"></i>
+                        <span></span></span>
+                    <small class="hint-text">Minimum 8 characters, avoid common passwords</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password2">Confirm Password</label>
+                    <div class="password-wrapper">
+                        {{ form.password2 }}
+                        <i class="fa-solid fa-eye toggle-password" data-target="id_password2"></i>
+                    </div>
+                    <span class="error-text" id="error_password2"><i class="fa-solid fa-circle-exclamation"></i>
+                        <span></span></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="registerBtn">
+                    <i class="fa-solid fa-user-plus"></i> Create Account
+                </button>
+            </form>
+
+            <p class="auth-footer">Already have an account? <a href="{% url 'accounts:login' %}">Login here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/auth.js' %}"></script>{% endblock %}
