@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Properties - RoomFinder{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/property-form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="my-properties-page">
+    <div class="page-header">
+        <h2>My Properties</h2>
+        <a href="{% url 'properties:add_property' %}" class="btn-add">+ Add Property</a>
+    </div>
+
+    <div class="properties-table">
+        {% for property in properties %}
+            <div class="property-row">
+                {% if property.primary_image %}
+                    <img src="{{ property.primary_image.image.url }}" alt="{{ property.title }}">
+                {% else %}
+                    <img src="{% static 'images/placeholder-room.jpg' %}" alt="No image">
+                {% endif %}
+                <div class="property-row-info">
+                    <h4>{{ property.title }}</h4>
+                    <p>{{ property.area }}, {{ property.get_city_display }}</p>
+                    <p>Rs. {{ property.monthly_rent }} / month</p>
+                    <span class="status-badge {% if property.is_available %}active{% else %}pending{% endif %}">
+                        {% if property.is_available %}Active{% else %}Inactive{% endif %}
+                    </span>
+                </div>
+                <div class="property-row-actions">
+                    <a href="{% url 'properties:edit_property' property.slug %}">Edit</a>
+                    <a href="{% url 'properties:details' property.slug %}">View</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>You haven't listed any properties yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

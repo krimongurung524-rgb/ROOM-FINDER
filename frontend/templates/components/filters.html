@@ -1,0 +1,33 @@
+<form method="get" id="filter-form" class="filters-form">
+    <div class="filters-header">
+        <h3>Filters</h3>
+        <a href="{% url 'properties:search' %}" class="clear-link">Clear</a>
+    </div>
+
+    <div class="filter-group">
+        <label>Location</label>
+        {{ form.city }}
+    </div>
+
+    <div class="filter-group">
+        <label>Room Type</label>
+        {{ form.room_type }}
+    </div>
+
+    <div class="filter-group">
+        <label>Monthly Rent</label>
+        <div class="price-inputs">
+            {{ form.min_price }}
+            {{ form.max_price }}
+        </div>
+    </div>
+
+    <div class="filter-group">
+        <label>Facilities</label>
+        <label class="checkbox-label">{{ form.wifi }} WiFi</label>
+        <label class="checkbox-label">{{ form.parking }} Parking</label>
+        <label class="checkbox-label">{{ form.furnished }} Furnished</label>
+    </div>
+
+    <button type="submit">Apply Filters</button>
+</form>

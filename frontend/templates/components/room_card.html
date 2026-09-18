@@ -1,0 +1,24 @@
+{% load static %}
+<div class="room-card">
+    <div class="room-image">
+        {% if property.primary_image %}
+            <img src="{{ property.primary_image.image.url }}" alt="{{ property.title }}">
+        {% else %}
+            <img src="{% static 'images/placeholder-room.jpg' %}" alt="No image available">
+        {% endif %}
+        <span class="save-icon" data-property-id="{{ property.id }}">&#9825;</span>
+    </div>
+    <div class="room-info">
+        <h4>{{ property.title }}</h4>
+        <p class="room-location">&#128205; {{ property.area }}, {{ property.get_city_display }}</p>
+        <p class="room-meta">
+            {{ property.bedrooms }} Room &middot; {{ property.bathrooms }} Bathroom
+            {% if property.has_wifi %} &middot; WiFi{% endif %}
+            {% if property.has_parking %} &middot; Parking{% endif %}
+        </p>
+        <div class="room-footer">
+            <span class="room-price">Rs. {{ property.monthly_rent }} / month</span>
+            <a href="{% url 'properties:details' property.slug %}" class="btn-view">View Details</a>
+        </div>
+    </div>
+</div>

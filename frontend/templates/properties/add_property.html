@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Property - RoomFinder{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/property-form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="property-form-page">
+    <h2>Add New Property</h2>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <h3>Upload Images</h3>
+        {{ formset.management_form }}
+        {% for image_form in formset %}
+            <div class="image-form-row">{{ image_form.as_p }}</div>
+        {% endfor %}
+
+        <button type="submit" class="btn-publish">Publish Property</button>
+    </form>
+</div>
+{% endblock %}
